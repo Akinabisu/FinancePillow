@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - FinancePillow</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/lightTheme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/darkTheme.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/colors.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/media.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3 fixed-top">
+            <div class="container-fluid">
+                <p class="navbar-brand" asp-area="">FinancePillow</p>
+                <button class="navbar-toggle" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleNavbar()">
+                    Menu
+                </button>
+                <div class="navbar-collapse collapse" id="navbarSupportedContent" >
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" data-lang="en">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" data-lang="uk" style="display: none;">Головна</a>
+                        </li>
+                        <li class="nav-item"  >
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Expenses" data-lang="en">Expenses</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Expenses" data-lang="uk" style="display: none;">Витрати</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Incomes" data-lang="en">Incomes</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Incomes" data-lang="uk" style="display: none;">Доходи</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Credit" data-lang="en">Credit</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Credit" data-lang="uk" style="display: none;">Кредит</a>
+                        </li>
+                        <li class="nav-item" >
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Currency" data-lang="en">Currency</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Currency" data-lang="uk" style="display: none;">Валюта</a>
+                        </li>
+                        <li class="nav-item" >
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Games" data-lang="en">Games</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Games" data-lang="uk" style="display: none;">Ігри</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Settings" data-lang="en">Settings</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Settings" data-lang="uk" style="display: none;">Налаштування</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav flex-grow-2">
+                        <li class="nav-item right-nav">
+                            <div>
+                                <select id="languageSelect" class="form-select float-end">
+                                    <option value="en" selected>English</option>
+                                    <option value="uk">Українська</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li class="nav-item right-nav">
+                            <audio id="audioPlayer">
+                                <source src="" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <button onclick="togglePlayPause()" class="song-toggle-btn">
+                                <img src="/images/play.png" style="width: 30px; height: 30px;">
+                            </button>
+                        </li>
+                        <li class="nav-item right-nav">
+                            <button onclick="changeSong()" class="song-toggle-btn">
+                                <img src="/images/music.png" style="width: 30px; height: 30px;">
+                            </button>
+                        </li>
+                        <li class="nav-item right-nav">
+                            <button class="color-toggle-btn">
+                                <img src="/images/color.png" style="width: 30px; height: 30px;">
+                            </button>
+                        </li>
+                        <li class="nav-item right-nav">
+                            <button class="theme-toggle-btn">
+                                <img src="/images/theme.png" style="width: 30px; height: 30px;">
+                            </button>
+                        </li>
+                        <li class="nav-item right-nav">
+                            <form class="logout-form" asp-controller="Account" asp-action="Logout" method="post">
+                                <button type="submit">
+                                    <img src="/images/exit.png" style="width: 30px; height: 30px;">
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div id="overlay-menu" class="overlay-menun">
+            <ul class="navbar-nav-ov">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" data-lang="en">Home</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" data-lang="uk" style="display: none;">Головна</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Expenses" data-lang="en">Expenses</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Expenses" data-lang="uk" style="display: none;">Витрати</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Incomes" data-lang="en">Incomes</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Incomes" data-lang="uk" style="display: none;">Доходи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Credit" data-lang="en">Credit</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Credit" data-lang="uk" style="display: none;">Кредит</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Currency" data-lang="en">Currency</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Currency" data-lang="uk" style="display: none;">Валюта</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Games" data-lang="en">Games</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Games" data-lang="uk" style="display: none;">Ігри</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Settings" data-lang="en">Settings</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Settings" data-lang="uk" style="display: none;">Налаштування</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="IndexCopy" data-lang="en">Copy</a>
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="IndexCopy" data-lang="uk" style="display: none;">Копі</a>
+                </li>
+            </ul>
+
+            <div class="navbar-nav-ov" style="display: flex; width: 100%; justify-content:center;">
+                <div>
+                    <select id="languageSelect" class="form-select float-end">
+                        <option value="en" selected>English</option>
+                        <option value="uk">Українська</option>
+                    </select>
+                </div>
+                <audio id="audioPlayer">
+                    <source src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <button onclick="togglePlayPause()" class="song-toggle-btn">
+                    <img src="/images/play.png" style="width: 30px; height: 30px;">
+                </button>
+
+                <button onclick="changeSong()" class="song-toggle-btn">
+                    <img src="/images/music.png" style="width: 30px; height: 30px;">
+                </button>
+
+                <button class="color-toggle-btn">
+                    <img src="/images/color.png" style="width: 30px; height: 30px;">
+                </button>
+
+                <button class="theme-toggle-btn">
+                    <img src="/images/theme.png" style="width: 30px; height: 30px;">
+                </button>
+
+                <form class="logout-form" asp-controller="Account" asp-action="Logout" method="post">
+                    <button type="submit">
+                        <img src="/images/exit.png" style="width: 30px; height: 30px;">
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container d-flex justify-content-between align-items-center">
+            &copy; 2024 - FinancePillow
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/music.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var navbarToggler = document.querySelector('.navbar-toggle');
+            var overlayMenu = document.getElementById('overlay-menu');
+
+            navbarToggler.addEventListener('click', function () {
+                overlayMenu.classList.toggle('show');
+            });
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

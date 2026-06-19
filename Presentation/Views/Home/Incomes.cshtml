@@ -1,0 +1,51 @@
+﻿@model Presentation.Models.StatisticsViewModel
+
+@{
+    ViewData["Title"] = "Income Stats";
+}
+
+<div class="home-div">
+    <h1 data-lang="en">Income Statistics</h1>
+    <h1 data-lang="uk" style="display: none;">Статистика Доходів</h1>
+</div>
+
+<div class="home-div">
+    <h1 data-lang="en">Month</h1>
+    <h1 data-lang="uk" style="display: none;">За місяць</h1>
+    <div class="flex-div">
+        <div id="columnChartForMonthDaily" style="height: 500px;"></div>
+        <div id="pieChartForMonthTotal" style="height: 500px;"></div>
+    </div>
+</div>
+
+<div class="home-div">
+    <h1 data-lang="en">6 Month</h1>
+    <h1 data-lang="uk" style="display: none;">За 6 місяців</h1>
+    <div class="flex-div">
+        <div id="columnChartForSixMonthsMonthly" style="height: 500px;"></div>
+        <div id="pieChartForSixMonthsTotal" style="height: 500px;"></div>
+    </div>
+</div>
+
+<div class="home-div">
+    <h1 data-lang="en">Year</h1>
+    <h1 data-lang="uk" style="display: none;">За рік</h1>
+    <div class="flex-div">
+        <div id="columnChartForYearMonthly" style="height: 500px;"></div>
+        <div id="pieChartForYearTotal" style="height: 500px;"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script>
+    var categories = @Html.Raw(Json.Serialize(Model.Categories.Select(e => e.Name)));
+    var monthDaily = @Html.Raw(Json.Serialize(Model.MonthDaily));
+    var monthTotal = @Html.Raw(Json.Serialize(Model.MonthTotal));
+    var sixMonthMonthly = @Html.Raw(Json.Serialize(Model.SixMonthsMonthly));
+    var sixMonthTotal = @Html.Raw(Json.Serialize(Model.SixMonthsTotal));
+    var yearMonthly = @Html.Raw(Json.Serialize(Model.YearMonthly));
+    var yearTotal = @Html.Raw(Json.Serialize(Model.YearTotal));
+</script>
+
+<script src="~/js/statistics.js"></script>

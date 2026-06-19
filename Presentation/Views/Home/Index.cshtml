@@ -1,0 +1,138 @@
+﻿@model Presentation.Models.BudgetViewModel
+@using Business.DTO
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="home-div">
+    <h1 data-lang="en">Budget: @Model.Budget</h1>
+    <h1 data-lang="uk" style="display: none;">Бюджет: @Model.Budget</h1>
+
+    @if (Model.Limits?.IncomeLimitExceeded == true)
+    {
+        <div class="limit-warning-income limit-warning" data-lang="en">
+            <p>Limit: @Model.Limits.IncomeLimit - Total Income: @Model.Limits.TotalIncome - Your income has exceeded limit!!!</p>
+        </div>
+        <div class="limit-warning-income limit-warning" data-lang="uk" style="display: none;">
+            <p>Ліміт: @Model.Limits.IncomeLimit - Загальні Доходи: @Model.Limits.TotalIncome - Ви перевищили ліміт!!!</p>
+        </div>
+    }
+
+    @if (Model.Limits?.ExpenseLimitExceeded == true)
+    {
+        <div class="limit-warning-expense limit-warning" data-lang="en">
+            <p>Limit: @Model.Limits.ExpenseLimit - Total Expenses: @Model.Limits.TotalExpense - You have exceeded your limit!!!</p>
+        </div>
+        <div class="limit-warning-expense limit-warning" data-lang="uk" style="display: none;">
+            <p>Ліміт: @Model.Limits.ExpenseLimit - Загальні витрати: @Model.Limits.TotalExpense - Ви перевищили ліміт!!!</p>
+        </div>
+    }
+</div>
+
+<div class="home-div">
+    <h1 data-lang="uk">Додати транзакцію</h1>
+    <h1 data-lang="en" style="display: none;">Add Transaction</h1>
+    <form asp-action="AddTransaction" asp-controller="Home" method="post">
+        <div>
+            <label for="type" data-lang="en">Type:</label>
+            <label for="type" data-lang="uk" style="display: none;">Тип:</label>
+            <select name="Type" id="type">
+                @foreach (var type in Enum.GetValues(typeof(TransactionType)))
+                {
+                    <option value="@type">@type</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label for="categoryId" data-lang="en">Category:</label>
+            <label for="categoryId" data-lang="uk" style="display: none;">Категорія:</label>
+            <select name="CategoryId" id="categoryId">
+                @foreach (var category in Model.ExpenseCategories)
+                {
+                    <option value="@category.CategoryId">@category.Name</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label for="sum" data-lang="en">Sum:</label>
+            <label for="sum" data-lang="uk" style="display: none;">Сума:</label>
+            <input type="number" name="Sum" id="sum" step="1" required>
+        </div>
+        <div>
+            <label for="details" data-lang="en">Details:</label>
+            <label for="details" data-lang="uk" style="display: none;">Деталі:</label>
+            <input type="text" name="Details" id="details">
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="add-transaction-button" data-lang="en">Add Transaction</button>
+            <button type="submit" class="add-transaction-button" data-lang="uk" style="display: none;">Додати транзакцію</button>
+        </div>
+    </form>
+</div>
+
+<div class="home-div transactionHistory">
+    <h1>Transaction History</h1>
+    <div class="history-filters">
+        <button id="allHistoryBtn">
+            <span data-lang="en">All History</span>
+            <span data-lang="uk" style="display:none;">Вся історія</span>
+        </button>
+        <button id="expenseHistoryBtn">
+            <span data-lang="en">Expenses</span>
+            <span data-lang="uk" style="display:none;">Витрати</span>
+        </button>
+        <button id="incomeHistoryBtn">
+            <span data-lang="en">Income</span>
+            <span data-lang="uk" style="display:none;">Доходи</span>
+        </button>
+        <input type="date" id="startDate">
+        <input type="date" id="endDate">
+        <button id="filterByDateBtn">
+            <span data-lang="en">Filter By Date</span>
+            <span data-lang="uk" style="display:none;">Фільтр за датою</span>
+        </button>
+    </div>
+    <table>
+        <tr>
+            <th data-lang="en">Type</th>
+            <th data-lang="uk" style="display: none;">Тип</th>
+            <th data-lang="en">Category</th>
+            <th data-lang="uk" style="display: none;">Категорія</th>
+            <th data-lang="en">Sum</th>
+            <th data-lang="uk" style="display: none;">Сума</th>
+            <th data-lang="en">Time</th>
+            <th data-lang="uk" style="display: none;">Час</th>
+            <th data-lang="en">Details</th>
+            <th data-lang="uk" style="display: none;">Деталі</th>
+            <th></th>
+        </tr>
+        @foreach (var transaction in Model.History)
+        {
+            <tr class="@transaction.TransactionType.ToString().ToLower()">
+                <td>@transaction.TransactionType</td>
+                <td>@transaction.Category</td>
+                <td>@transaction.Sum</td>
+                <td>@transaction.Date.ToString("dd.MM.yyyy")</td>
+                <td>@transaction.Details</td>
+                <td>
+                    <form asp-action="DeleteTransaction" asp-controller="Home" method="post">
+                        <input type="hidden" name="type" value="@transaction.TransactionType" />
+                        <input type="hidden" name="transactionId" value="@transaction.TransactionId" />
+                        <button type="submit" data-lang="en">Delete</button>
+                        <button type="submit" data-lang="uk" style="display: none;">Видалити</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<script>
+    var incomeCategories = @Html.Raw(Json.Serialize(Model.IncomeCategories));
+    var expenseCategories = @Html.Raw(Json.Serialize(Model.ExpenseCategories));
+    console.log(incomeCategories);
+</script>
+
+<script src="~/js/transaction.js"></script>
+<script src="~/js/history.js"></script>

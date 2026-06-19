@@ -1,0 +1,52 @@
+﻿@model Presentation.Models.SettingsViewModel
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+
+<div class="home-div">
+    <h1 data-lang="en">Account Settings</h1>
+    <h1 data-lang="uk" style="display: none;">Налаштування акаунту</h1>
+
+    <form asp-action="Settings" method="post">
+        <input type="hidden" name="UserId" value="@Model.UserId" />
+
+        <div>
+            <label for="email" data-lang="en">Email:</label>
+            <label for="email" data-lang="uk" style="display: none;">Електронна пошта:</label>
+            <input type="email" id="email" name="Email" value="@Model.Email" />
+        </div>
+
+        <div>
+            <label for="newPassword" data-lang="en">New Password:</label>
+            <label for="newPassword" data-lang="uk" style="display: none;">Новий пароль:</label>
+            <input type="password" id="newPassword" name="NewPassword" />
+        </div>
+
+        <div>
+            <label for="confirmPassword" data-lang="en">Confirm New Password:</label>
+            <label for="confirmPassword" data-lang="uk" style="display: none;">Підтвердіть новий пароль:</label>
+            <input type="password" id="confirmPassword" name="ConfirmPassword" />
+        </div>
+
+        <div>
+            <label for="expenseLimit" data-lang="en">Expense Limit:</label>
+            <label for="expenseLimit" data-lang="uk" style="display: none;">Ліміт витрат:</label>
+            <input type="number" id="expenseLimit" name="ExpenseLimit" value="@Model.ExpenseLimit" />
+        </div>
+
+        <div>
+            <label for="incomeLimit" data-lang="en">Income Limit:</label>
+            <label for="incomeLimit" data-lang="uk" style="display: none;">Ліміт доходів:</label>
+            <input type="number" id="incomeLimit" name="IncomeLimit" value="@Model.IncomeLimit" />
+        </div>
+
+        <div class="form-buttons">
+            <button type="submit" class="add-transaction-button" data-lang="en">Save</button>
+            <button type="submit" class="add-transaction-button" data-lang="uk" style="display: none;">Зберегти</button>
+            <button type="reset" class="add-transaction-button" data-lang="en">Cancel</button>
+            <button type="reset" class="add-transaction-button" data-lang="uk" style="display: none;">Скасувати</button>
+        </div>
+    </form>
+</div>
